@@ -1,6 +1,6 @@
 #include "twistpublisher.h"
 
-TwistPublisher::TwistPublisher(): Node("twist_publisher")
+TwistPublisher::TwistPublisher(): Node("teleop_twist_qt")
 {
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 

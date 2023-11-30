@@ -9,6 +9,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 	auto res=a.exec();
-	 rclcpp::shutdown();
+    rclcpp::shutdown();
     return res;
 }

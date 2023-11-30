@@ -18,11 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/twistpublisher.cpp
+    src/twistpublisher.cpp \
+    src/joypad.cpp
 
 HEADERS += \
-    src/mainwindow.h
-    src/twistpublisher.h
+    src/mainwindow.h \
+    src/twistpublisher.h \
+    src/joypad.h
+
 
 FORMS += \
     src/mainwindow.ui

@@ -27,6 +27,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(
  ${rclcpp_INCLUDE_DIRS}
  ${std_msgs_INCLUDE_DIRS}
+ ${PROJECT_SOURCE_DIR}/src
  )
 file(GLOB SOURCE_FILES
  ${PROJECT_SOURCE_DIR}/src/*.cpp
