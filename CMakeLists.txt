@@ -17,7 +17,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Gamepad REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -48,7 +48,7 @@ ament_target_dependencies(${PROJECT_NAME}
  )
 
 target_link_libraries(${PROJECT_NAME}
- Qt5::Widgets Qt5::Core
+ Qt5::Widgets Qt5::Core Qt5::Gamepad
  )
  
  install(TARGETS
