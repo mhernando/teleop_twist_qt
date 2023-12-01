@@ -13,7 +13,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
+enum GamepadMode {DIFF_DRIVE, OMNI1, OMNI2};
 class MainWindow : public QMainWindow, public rclcpp::Node
 {
     Q_OBJECT
@@ -29,6 +29,7 @@ private slots:
     Ui::MainWindow *ui;
     QTimer *timer=nullptr;
     QGamepad *gamepad=nullptr;
+    GamepadMode gamepadmode=DIFF_DRIVE;
     void virtualGamePadControl();
     void handleGamePadStatus();
     void gamePadControl();

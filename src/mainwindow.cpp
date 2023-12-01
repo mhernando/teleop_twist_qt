@@ -50,6 +50,19 @@ void MainWindow::handleGamePadStatus()
           gamepad=new QGamepad(gamepads[0], this);
       }
     }
+    //check the gamepad_mode
+    if(ui->rb_diff_drive->isChecked()){
+        gamepadmode=DIFF_DRIVE;
+        ui->joyPadR->setEnabled(false);
+    }else
+    if(ui->rb_omni1->isChecked()){
+        gamepadmode=OMNI1;
+        ui->joyPadR->setEnabled(true);
+
+    }else {
+        gamepadmode=OMNI2;
+        ui->joyPadR->setEnabled(true);
+    }
 
 }
 void  MainWindow::gamePadControl()
@@ -82,18 +95,32 @@ void MainWindow::virtualGamePadControl()
         //no publica si el valor es cero y ya se envio la parada
         if(!moved)return;
         moved=false;
-        qDebug() << "Reset cmd_vel"<<0.0<<Qt::endl;
+        qDebug() << "Reset cmd_vel"<<0.0<<endl;
         RCLCPP_INFO(this->get_logger(), "Publicando: '%f'", message.linear.x);
         publisher_->publish(message);
         return;
     }
     //auto speeds = RM2_Kinematics::compute_screw_speeds(yL,xL,xR);
-    message.linear.x = static_cast<double>(yL);
-    message.linear.y = static_cast<double>(-xL);
-    message.angular.z = static_cast<double>(-xR);
+    switch(gamepadmode){
+        case OMNI2:
+            message.linear.y = static_cast<double>(-xR);
+        case DIFF_DRIVE:
+            message.linear.x = static_cast<double>(yL);
+            message.angular.z = static_cast<double>(-xL);
+        break;
+        default:
+            message.linear.x = static_cast<double>(yL);
+            message.linear.y = static_cast<double>(-xL);
+            message.angular.z = static_cast<double>(-xR);
+
+    }
+
+
+
+
 
     //ENVIAR EL TWIST en funcion de las selecciones
-    RCLCPP_INFO(this->get_logger(), "Published: '%f'", message.linear.x);
+    RCLCPP_INFO(this->get_logger(), "Published: 'vx:%f vy:%f vyaw:%f'", message.linear.x, message.linear.y, message.angular.z);
     publisher_->publish(message);
     moved=true;
 }
