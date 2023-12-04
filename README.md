@@ -18,7 +18,9 @@ It has basically three modes of operation:
 
 If you want to modify the behavior, it is easy to work with it simply by doing:
 
-
+    sudo apt install libqt5gamepad5
+    sudo apt install libqt5gamepad5-dev
+    
     source install/setup.bash
     cd src/teleop_twist_qt
     qtcreator .
