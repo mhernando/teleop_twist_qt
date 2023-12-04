@@ -26,9 +26,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     auto message = geometry_msgs::msg::Twist();
-    message.linear.x = static_cast<double>(1);
-    message.angular.z = static_cast<double>(1);
-    RCLCPP_INFO(this->get_logger(), "Publicando: '%f'", message.linear.x);
+    ui->joyPadL->setX(0);
+    ui->joyPadL->setY(0);
+    ui->joyPadR->setX(0);
+    ui->joyPadR->setY(0);
+    RCLCPP_INFO(this->get_logger(), "STOPPING cmd_vel = 000000");
     publisher_->publish(message);
 }
 void MainWindow::on_Timer()
@@ -100,18 +102,21 @@ void MainWindow::virtualGamePadControl()
         publisher_->publish(message);
         return;
     }
+    double vl_max=ui->d_linearvel->value();
+    double va_max=ui->d_angularvel->value();
+
     //auto speeds = RM2_Kinematics::compute_screw_speeds(yL,xL,xR);
     switch(gamepadmode){
         case OMNI2:
-            message.linear.y = static_cast<double>(-xR);
+            message.linear.y = vl_max*static_cast<double>(-xR);
         case DIFF_DRIVE:
-            message.linear.x = static_cast<double>(yL);
-            message.angular.z = static_cast<double>(-xL);
+            message.linear.x = vl_max*static_cast<double>(yL);
+            message.angular.z = va_max*static_cast<double>(-xL);
         break;
         default:
-            message.linear.x = static_cast<double>(yL);
-            message.linear.y = static_cast<double>(-xL);
-            message.angular.z = static_cast<double>(-xR);
+            message.linear.x = vl_max*static_cast<double>(yL);
+            message.linear.y = vl_max*static_cast<double>(-xL);
+            message.angular.z = va_max*static_cast<double>(-xR);
 
     }
 
